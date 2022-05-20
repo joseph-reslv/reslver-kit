@@ -21,7 +21,7 @@ func getYamlConfig(yamlPath string) (string, error) {
 		if _, err := os.Stat(yamlPath + "/" + DefaultYamlFilename); err != nil {
 			return "", err
 		}
-		return yamlPath + DefaultYamlFilename, nil
+		return yamlPath + "/" + DefaultYamlFilename, nil
 	}
 	return yamlPath, nil
 }
