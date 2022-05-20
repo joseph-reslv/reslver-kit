@@ -18,6 +18,11 @@ var graphModuleFileSystem embed.FS
 //go:embed sources/reslver
 var reslverFileSystem embed.FS
 
+//go:embed sources/reslver-static-graph-exporter/* sources/reslver-static-graph-exporter/*/*
+var graphGeneratorFileSystem embed.FS
+
+var KitRoot = ".reslver/"
+
 func main() {
 	root, _ := os.Getwd()
 	root += "/"
@@ -27,10 +32,14 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+
 	// map kit fs to embed fs
 	kit.TfLoaderFileSystem = tfLoaderFileSystem
 	kit.ReslverFileSystem = reslverFileSystem
 	kit.GraphModuleFileSystem = graphModuleFileSystem
+	kit.GraphGeneratorFileSystem = graphGeneratorFileSystem
+	kit.KitRoot = KitRoot
+
 	err = kit.Build(flags, root)
 	if err != nil {
 		fmt.Println(err)

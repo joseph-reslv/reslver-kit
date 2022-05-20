@@ -1,1 +1,1 @@
-./reslver-kit --input examples/tfstates/funki --output examples/funki
+./reslver-kit --input examples/tfstates/funki --output examples/funki --y examples/graph.yaml

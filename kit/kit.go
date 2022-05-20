@@ -11,13 +11,17 @@ import (
 	reslver "git.k8s.app/joseph/reslver/core"
 )
 
+var KitRoot string
+
 var TfLoaderFileSystem embed.FS
 var GraphModuleFileSystem embed.FS
 var ReslverFileSystem embed.FS
+var GraphGeneratorFileSystem embed.FS
 
 var TFLoaderSource = "sources/reslver-tf-loader/"
 var GraphModuleSource = "sources/reslver-graph-exporter/"
 var	ReslverSource = "sources/reslver/"
+var	GraphGeneratorSource = "sources/reslver-static-graph-exporter/"
 
 func getAbsPath(path, root string) (string) {
 	result, _ := filepath.Abs(root + path)
@@ -54,29 +58,42 @@ func runGraphExporter(profile string, inputPath string, outputPath string, confi
 
 func Build(flags *types.CommandFlag, root string) (error) {
 	input := getAbsPath(flags.InputPath, root)
-	outputTemp := root + ".reslver/"
+	outputTemp := root + KitRoot
 	output := getAbsPath(flags.OutputPath, root)
 	config := flags.ConfigsPath + "/"
 	debug := flags.Debug
+	yaml, err := getYamlConfig(getAbsPath(flags.ConfigYAML, root))
+	if err != nil {
+		return err
+	}
 	
 	// run tf loader
-	tfLoaderOutput, err := runTFLoader(input, outputTemp + "_tfloader/", config, debug)
+	input, err = runTFLoader(input, outputTemp + "_tfloader/", config, debug)
 	if err != nil {
 		return err
 	}
 
 	// run reslver core
-	reslverOutput, err := runReslver(tfLoaderOutput, outputTemp + "_reslver/", config, debug)
+	input, err = runReslver(input, outputTemp + "_reslver/", config, debug)
 	if err != nil {
 		return err
 	}
 
 	// run graph exporter
-	graphExporterOutput, err := runGraphExporter("level2", reslverOutput + "output.json", outputTemp + "_graphexporter/", config, root, debug)
+	input, err = runGraphExporter("level2", input + "output.json", outputTemp + "_graphexporter/", config, root, debug)
 	if err != nil {
 		return err
 	}
 
-	print(graphExporterOutput, output)
+	// run graph generator
+	_ggenInput := input
+	_ggenOutput := output
+	_ggenYaml := yaml
+	_ggenSourceCode := outputTemp + ".graph_generator/"
+	_, err = runGraphGenerator(_ggenInput, _ggenOutput, _ggenYaml, _ggenSourceCode)
+	if err != nil {
+		return err
+	}
+	
 	return nil
 }

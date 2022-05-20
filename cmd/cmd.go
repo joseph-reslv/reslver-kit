@@ -43,8 +43,7 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 				Name: "yaml-config",
 				Aliases: []string{"y"},
 				Usage: "Load graph YAML configuration from `FILE`",
-				Destination: &commands.ConfigsPath,
-				// Required: true,
+				Destination: &commands.ConfigYAML,
 			},
 			&cli.StringFlag{
 				Name: "config",
