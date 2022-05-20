@@ -1,0 +1,1 @@
+./reslver-kit --input examples/tfstates/funki --output examples/funki
