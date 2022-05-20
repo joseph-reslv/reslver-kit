@@ -2,6 +2,7 @@ package kit
 
 import (
 	"embed"
+	"os"
 	"path/filepath"
 
 	graphExporter "git.k8s.app/joseph/reslver-graph-exporter/core"
@@ -92,6 +93,11 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	_ggenSourceCode := outputTemp + ".graph_generator/"
 	_, err = runGraphGenerator(_ggenInput, _ggenOutput, _ggenYaml, _ggenSourceCode)
 	if err != nil {
+		return err
+	}
+
+	// remove generated files
+	if err := os.RemoveAll(KitRoot); err != nil {
 		return err
 	}
 	

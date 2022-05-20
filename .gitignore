@@ -12,3 +12,6 @@ sources/*
 
 .reslver
 .reslver/*
+
+.reslver_sys
+.reslver_sys/*

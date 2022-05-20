@@ -21,7 +21,7 @@ var reslverFileSystem embed.FS
 //go:embed sources/reslver-static-graph-exporter/* sources/reslver-static-graph-exporter/*/*
 var graphGeneratorFileSystem embed.FS
 
-var KitRoot = ".reslver/"
+var KitRoot = ".reslver_sys/"
 
 func main() {
 	root, _ := os.Getwd()
