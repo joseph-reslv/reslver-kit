@@ -8,6 +8,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var VERSION string
+
 func GetCmd() (*cli.App, *types.CommandFlag) {
 	root, _ := os.Getwd()
 	commands := &types.CommandFlag{}
@@ -17,21 +19,28 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 			oldHelpPrinter(w, templ, data)
 			os.Exit(0)
 	}
-
 	oldVersionPrinter := cli.VersionPrinter
 	cli.VersionPrinter = func(c *cli.Context) {
 			oldVersionPrinter(c)
 			os.Exit(0)
 	}
 	//
+	// var showVersion bool
 	app := &cli.App{
 		HideHelpCommand: true,
-		Name: "Reslver Kit",
+		Name: "reslver-kit",
 		Usage: "generate diagrams from terraform states",
+		Version: VERSION,
 		Action: func(c *cli.Context) error {
 			return nil
 		},
 		Flags: []cli.Flag{
+			// &cli.BoolFlag{
+			// 	Name: "version",
+			// 	Aliases: []string{"v"},
+			// 	Usage: "Show current version",
+			// 	Destination: &showVersion,
+			// },
 			&cli.BoolFlag{
 				Name: "debug",
 				Aliases: []string{"d"},
@@ -44,6 +53,7 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 				Aliases: []string{"y"},
 				Usage: "Load graph YAML configuration from `FILE`",
 				Destination: &commands.ConfigYAML,
+				Value: root + "/" + "graph.yaml",
 			},
 			&cli.StringFlag{
 				Name: "config",

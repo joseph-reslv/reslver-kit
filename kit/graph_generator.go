@@ -3,14 +3,42 @@ package kit
 import (
 	"embed"
 	"io/fs"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
-var DefaultYamlFilename = "graph.yaml"
+var GeneratorFilename = "./reslvergraph"
+
+type YamlConfig struct {
+	Diagram string `yaml:"diagram"`
+}
+
+func readYaml(yamlPath string) (YamlConfig, error) {
+	var config YamlConfig
+	yamlFile, err := ioutil.ReadFile(yamlPath)
+	if err != nil {
+		return config, err
+	}
+	err = yaml.Unmarshal(yamlFile, &config)
+	if err != nil {
+		return config, err
+	}
+	return config, nil
+}
+
+func getYamlDiagram(yamlPath string) (string, error) {
+	config, err := readYaml(yamlPath)
+	if err != nil {
+		return "", err
+	}
+	return config.Diagram, nil
+}
 
 func getYamlConfig(yamlPath string) (string, error) {
 	fileInfo, err := os.Stat(yamlPath)
@@ -18,10 +46,10 @@ func getYamlConfig(yamlPath string) (string, error) {
 		return "", err
 	}
 	if fileInfo.IsDir() {
-		if _, err := os.Stat(yamlPath + "/" + DefaultYamlFilename); err != nil {
+		if _, err := os.Stat(yamlPath); err != nil {
 			return "", err
 		}
-		return yamlPath + "/" + DefaultYamlFilename, nil
+		return yamlPath, nil
 	}
 	return yamlPath, nil
 }
@@ -71,7 +99,7 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 	if yamlPath, err = moveYamlConfig(yamlPath, filepath.Dir(inputPath) + "/"); err != nil {
 		return "", err
 	}
-	cmd := exec.Command("python3", sourceCodePath, "--yaml-config", yamlPath, "--output", outputPath)
+	cmd := exec.Command(sourceCodePath + GeneratorFilename, "--yaml-config", yamlPath, "--output", outputPath)
 	if err = cmd.Run(); err != nil {
 		return "", err
 	}

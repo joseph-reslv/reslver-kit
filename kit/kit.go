@@ -63,7 +63,11 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	output := getAbsPath(flags.OutputPath, root)
 	config := flags.ConfigsPath + "/"
 	debug := flags.Debug
-	yaml, err := getYamlConfig(getAbsPath(flags.ConfigYAML, root))
+	yaml, err := getYamlConfig(flags.ConfigYAML)
+	if err != nil {
+		return err
+	}
+	profile, err := getYamlDiagram(yaml)
 	if err != nil {
 		return err
 	}
@@ -81,7 +85,7 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	}
 
 	// run graph exporter
-	input, err = runGraphExporter("level2", input + "output.json", outputTemp + "_graphexporter/", config, root, debug)
+	input, err = runGraphExporter(profile, input + "output.json", outputTemp + "_graphexporter/", config, root, debug)
 	if err != nil {
 		return err
 	}
@@ -90,8 +94,8 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	_ggenInput := input
 	_ggenOutput := output
 	_ggenYaml := yaml
-	_ggenSourceCode := outputTemp + ".graph_generator/"
-	_, err = runGraphGenerator(_ggenInput, _ggenOutput, _ggenYaml, _ggenSourceCode)
+	_ggenSource := outputTemp + ".graph_generator/"
+	_, err = runGraphGenerator(_ggenInput, _ggenOutput, _ggenYaml, _ggenSource)
 	if err != nil {
 		return err
 	}

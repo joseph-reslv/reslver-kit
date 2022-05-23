@@ -9,6 +9,8 @@ import (
 	"git.k8s.app/joseph/reslver-kit/kit"
 )
 
+var VERSION = "1.0.0"
+
 //go:embed sources/reslver-tf-loader
 var tfLoaderFileSystem embed.FS
 
@@ -18,7 +20,7 @@ var graphModuleFileSystem embed.FS
 //go:embed sources/reslver
 var reslverFileSystem embed.FS
 
-//go:embed sources/reslver-static-graph-exporter/* sources/reslver-static-graph-exporter/*/*
+//go:embed sources/reslver-static-graph-exporter
 var graphGeneratorFileSystem embed.FS
 
 var KitRoot = ".reslver_sys/"
@@ -26,6 +28,8 @@ var KitRoot = ".reslver_sys/"
 func main() {
 	root, _ := os.Getwd()
 	root += "/"
+	
+	cmd.VERSION = VERSION
 	cli, flags := cmd.GetCmd()
 	err := cli.Run(os.Args)
 	if err != nil {
