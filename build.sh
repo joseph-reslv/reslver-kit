@@ -32,3 +32,6 @@ cp -r "${reslver_graph_exporter_path}" "${source}${reslver_graph_exporter}"
 
 # point back to current dir
 cd ${root}
+
+echo "Installing: Reslver Kit"
+go install

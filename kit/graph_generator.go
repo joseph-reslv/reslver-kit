@@ -2,6 +2,7 @@ package kit
 
 import (
 	"embed"
+	"fmt"
 	"io/fs"
 	"io/ioutil"
 	"log"
@@ -99,9 +100,11 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 	if yamlPath, err = moveYamlConfig(yamlPath, filepath.Dir(inputPath) + "/"); err != nil {
 		return "", err
 	}
+	fmt.Println("RUN: graph generator...")
 	cmd := exec.Command(sourceCodePath + GeneratorFilename, "--yaml-config", yamlPath, "--output", outputPath)
 	if err = cmd.Run(); err != nil {
 		return "", err
 	}
+	fmt.Println("DONE: graph generated")
 	return "", nil
 }
