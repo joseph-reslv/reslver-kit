@@ -8,8 +8,6 @@ reslver-kit
 
 .vscode
 
-sources/*
-
 .reslver
 .reslver/*
 
