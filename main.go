@@ -26,6 +26,9 @@ var reslverFileSystem embed.FS
 //go:embed sources/reslver-static-graph-exporter
 var graphGeneratorFileSystem embed.FS
 
+//go:embed sources/reslver-configs
+var reslverConfigsFileSystem embed.FS
+
 func main() {
 	root, _ := os.Getwd()
 	root += "/"
@@ -44,6 +47,7 @@ func main() {
 	kit.ReslverFileSystem = reslverFileSystem
 	kit.GraphModuleFileSystem = graphModuleFileSystem
 	kit.GraphGeneratorFileSystem = graphGeneratorFileSystem
+	kit.ReslverConfigsFileSystem = reslverConfigsFileSystem
 	kit.KIT_ROOT = KIT_ROOT
 	kit.CONFIGS_REPO = CONFIGS_REPO
 
