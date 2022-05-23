@@ -2,19 +2,20 @@ package kit
 
 import (
 	"embed"
-	"fmt"
 	"io/fs"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 
+	log "git.k8s.app/joseph/reslver-kit/logger"
 	"gopkg.in/yaml.v2"
 )
 
 var GeneratorFilename = "./reslvergraph"
+var GraphGeneratorFileSystem embed.FS
+var	GraphGeneratorSource = "sources/reslver-static-graph-exporter/"
 
 type YamlConfig struct {
 	Diagram string `yaml:"diagram"`
@@ -68,7 +69,7 @@ func copyFilesFromEmbedFS(rootPath, fromPath, toPath string, f *embed.FS) (error
         return err
     	}
 			if err := os.WriteFile(path, content, 0777); err != nil {
-				log.Printf("error os.WriteFile error: %v", err)
+				log.DebugLogger.Printf("error os.WriteFile error: %v", err)
 				return err
 			}
 		}
@@ -100,11 +101,12 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 	if yamlPath, err = moveYamlConfig(yamlPath, filepath.Dir(inputPath) + "/"); err != nil {
 		return "", err
 	}
-	fmt.Println("RUN: graph generator...")
+	log.Logger.Println("Running graph generator")
+	log.DebugLogger.Printf("Graph generator runs with [%s, --yaml-config, %s, --output, %s]", sourceCodePath + GeneratorFilename, yamlPath, outputPath)
 	cmd := exec.Command(sourceCodePath + GeneratorFilename, "--yaml-config", yamlPath, "--output", outputPath)
 	if err = cmd.Run(); err != nil {
 		return "", err
 	}
-	fmt.Println("DONE: graph generated")
+	log.Logger.Println("Graph generator run successfully")
 	return "", nil
 }

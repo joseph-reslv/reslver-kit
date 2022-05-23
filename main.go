@@ -2,11 +2,11 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"os"
 
 	"git.k8s.app/joseph/reslver-kit/cmd"
 	"git.k8s.app/joseph/reslver-kit/kit"
+	log "git.k8s.app/joseph/reslver-kit/logger"
 )
 
 var VERSION = "1.0.0"
@@ -35,9 +35,9 @@ func main() {
 	cli, flags := cmd.GetCmd()
 	err := cli.Run(os.Args)
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
+	log.SetLogger("Reslver Kit", flags.Debug)
 
 	// map kit fs to embed fs
 	kit.TfLoaderFileSystem = tfLoaderFileSystem
@@ -49,7 +49,7 @@ func main() {
 
 	err = kit.Build(flags, root)
 	if err != nil {
-		fmt.Println(err)
+		log.DebugLogger.Println(err)
 		return
 	}
 }

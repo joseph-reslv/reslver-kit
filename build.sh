@@ -24,7 +24,7 @@ cp -r "${reslver_tf_loader_path}" "${source}${reslver_tf_loader}"
 echo "Building: Reslver Static Graph Generator"
 python3 ./install.py
 cd ${reslver_graph_generator_path}
-pyinstaller --clean --onefile "reslvergraph.py" --distpath ${source}${reslver_graph_generator}
+pyinstaller --clean --onefile "reslvergraph.py" --distpath ${source}${reslver_graph_generator} --log-level WARN
 cd ${root}
 
 echo "Moving: Relsver Graph Exporter..."
