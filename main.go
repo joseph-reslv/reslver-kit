@@ -50,6 +50,7 @@ func main() {
 	err = kit.Build(flags, root)
 	if err != nil {
 		log.Logger.Printf("ERROR: %s", err.Error())
+		kit.CleanUpSysFiles()
 		return
 	}
 }

@@ -17,7 +17,34 @@ func getAbsPath(path, root string) (string) {
 	return path
 }
 
+func createOutputFolder(folderPath string) (error) {
+	log.DebugLogger.Println("create output folder: ", folderPath)
+	_, err := os.Stat(folderPath)
+	if os.IsNotExist(err){
+		if err := os.MkdirAll(folderPath, os.ModePerm); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func CleanUpSysFiles() (error) {
+	// remove generated files
+	log.DebugLogger.Println("remove reslver kit generated files")
+	_, err := os.Stat(KIT_ROOT)
+	if !os.IsNotExist(err){
+		if err := os.RemoveAll(KIT_ROOT); err != nil {
+			log.DebugLogger.Println(err)
+			return err
+		}
+	}
+	return nil
+}
+
 func Build(flags *types.CommandFlag, root string) (error) {
+	// remove generated files
+	CleanUpSysFiles()
+
 	input := getAbsPath(flags.InputPath, root)
 	outputTemp := root + KIT_ROOT
 	output := getAbsPath(flags.OutputPath, root) + "/"
@@ -29,6 +56,9 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	}
 	profile, err := getYamlDiagram(yaml)
 	if err != nil {
+		return err
+	}
+	if err := createOutputFolder(output); err != nil {
 		return err
 	}
 	downloadConfigsFromGit(config)
@@ -67,11 +97,6 @@ func Build(flags *types.CommandFlag, root string) (error) {
 		return err
 	}
 
-	// remove generated files
-	log.DebugLogger.Println("remove reslver kit generated files")
-	if err := os.RemoveAll(KIT_ROOT); err != nil {
-		return err
-	}
-	
+	CleanUpSysFiles()
 	return nil
 }

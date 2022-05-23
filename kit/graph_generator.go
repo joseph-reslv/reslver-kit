@@ -95,6 +95,8 @@ func moveYamlConfig(yamlPath, toPath string) (string, error) {
 }
 
 func unzipGraphGenerator(dirPath string, filePath string) (error) {
+	filePath += ".zip"
+	log.DebugLogger.Printf("Zips graph generator with [unzip, %s] in [%s]", filePath, dirPath)
 	cmd := exec.Command("unzip", filePath)
 	cmd.Dir = dirPath
 	if err := cmd.Run(); err != nil {
