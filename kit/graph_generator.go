@@ -2,6 +2,7 @@ package kit
 
 import (
 	"embed"
+	"errors"
 	"io/fs"
 	"io/ioutil"
 	"os"
@@ -93,6 +94,15 @@ func moveYamlConfig(yamlPath, toPath string) (string, error) {
 	return path, nil
 }
 
+func unzipGraphGenerator(dirPath string, filePath string) (error) {
+	cmd := exec.Command("unzip", filePath)
+	cmd.Dir = dirPath
+	if err := cmd.Run(); err != nil {
+		return errors.New("unable to unzip graph generator")
+	}
+	return nil
+}
+
 func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (string, error) {
 	err := copyFilesFromEmbedFS(".", GraphGeneratorSource, sourceCodePath, &GraphGeneratorFileSystem)
 	if err != nil {
@@ -102,10 +112,13 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 		return "", err
 	}
 	log.Logger.Println("Running graph generator")
+	if err = unzipGraphGenerator(sourceCodePath, GeneratorFilename); err != nil {
+		return "", err
+	}
 	log.DebugLogger.Printf("Graph generator runs with [%s, --yaml-config, %s, --output, %s]", sourceCodePath + GeneratorFilename, yamlPath, outputPath)
 	cmd := exec.Command(sourceCodePath + GeneratorFilename, "--yaml-config", yamlPath, "--output", outputPath)
 	if err = cmd.Run(); err != nil {
-		return "", err
+		return "", errors.New("unable to run graph generator")
 	}
 	log.Logger.Println("Graph generator run successfully")
 	return "", nil

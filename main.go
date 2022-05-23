@@ -49,7 +49,7 @@ func main() {
 
 	err = kit.Build(flags, root)
 	if err != nil {
-		log.DebugLogger.Println(err)
+		log.Logger.Printf("ERROR: %s", err.Error())
 		return
 	}
 }

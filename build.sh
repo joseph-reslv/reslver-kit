@@ -11,7 +11,9 @@ reslver_tf_loader_path="${root}/reslver-tf-loader/sources/"
 reslver_graph_generator_path="${root}/reslver-static-graph-exporter/reslver-graph/" 
 reslver_graph_exporter_path="${root}/reslver-graph-exporter/sources/"
 
-echo "Clone submodules..."
+reslver_graph_generator_file="reslvergraph"
+
+echo "Cloning: submodules..."
 git submodule init
 git submodule update --recursive --remote
 
@@ -25,6 +27,9 @@ echo "Building: Reslver Static Graph Generator"
 python3 ./install.py
 cd ${reslver_graph_generator_path}
 pyinstaller --clean --onefile "reslvergraph.py" --distpath ${source}${reslver_graph_generator} --log-level WARN
+cd ${source}${reslver_graph_generator}
+zip "${reslver_graph_generator_file}.zip" ${reslver_graph_generator_file}
+rm ${reslver_graph_generator_file}
 cd ${root}
 
 echo "Moving: Relsver Graph Exporter..."

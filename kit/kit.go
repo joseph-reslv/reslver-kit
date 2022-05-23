@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
+	log "git.k8s.app/joseph/reslver-kit/logger"
 	"git.k8s.app/joseph/reslver-kit/types"
 )
 
@@ -65,6 +66,7 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	}
 
 	// remove generated files
+	log.DebugLogger.Println("remove reslver kit generated files")
 	if err := os.RemoveAll(KIT_ROOT); err != nil {
 		return err
 	}
