@@ -10,6 +10,9 @@ import (
 )
 
 var VERSION = "1.0.0"
+var DEFAULT_CONFIG_PATH = ".reslver/configs/"
+var KIT_ROOT = ".reslver_sys/"
+var CONFIGS_REPO = "https://git.k8s.app/joseph/reslver-configs"
 
 //go:embed sources/reslver-tf-loader
 var tfLoaderFileSystem embed.FS
@@ -23,13 +26,12 @@ var reslverFileSystem embed.FS
 //go:embed sources/reslver-static-graph-exporter
 var graphGeneratorFileSystem embed.FS
 
-var KitRoot = ".reslver_sys/"
-
 func main() {
 	root, _ := os.Getwd()
 	root += "/"
 	
 	cmd.VERSION = VERSION
+	cmd.DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_PATH
 	cli, flags := cmd.GetCmd()
 	err := cli.Run(os.Args)
 	if err != nil {
@@ -42,7 +44,8 @@ func main() {
 	kit.ReslverFileSystem = reslverFileSystem
 	kit.GraphModuleFileSystem = graphModuleFileSystem
 	kit.GraphGeneratorFileSystem = graphGeneratorFileSystem
-	kit.KitRoot = KitRoot
+	kit.KIT_ROOT = KIT_ROOT
+	kit.CONFIGS_REPO = CONFIGS_REPO
 
 	err = kit.Build(flags, root)
 	if err != nil {

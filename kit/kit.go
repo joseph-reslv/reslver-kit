@@ -12,7 +12,7 @@ import (
 	reslver "git.k8s.app/joseph/reslver/core"
 )
 
-var KitRoot string
+var KIT_ROOT string
 
 var TfLoaderFileSystem embed.FS
 var GraphModuleFileSystem embed.FS
@@ -59,7 +59,7 @@ func runGraphExporter(profile string, inputPath string, outputPath string, confi
 
 func Build(flags *types.CommandFlag, root string) (error) {
 	input := getAbsPath(flags.InputPath, root)
-	outputTemp := root + KitRoot
+	outputTemp := root + KIT_ROOT
 	output := getAbsPath(flags.OutputPath, root)
 	config := flags.ConfigsPath + "/"
 	debug := flags.Debug
@@ -71,6 +71,7 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	if err != nil {
 		return err
 	}
+	downloadConfigsFromGit(config)
 	
 	// run tf loader
 	input, err = runTFLoader(input, outputTemp + "_tfloader/", config, debug)
@@ -101,7 +102,7 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	}
 
 	// remove generated files
-	if err := os.RemoveAll(KitRoot); err != nil {
+	if err := os.RemoveAll(KIT_ROOT); err != nil {
 		return err
 	}
 	

@@ -9,6 +9,7 @@ import (
 )
 
 var VERSION string
+var DEFAULT_CONFIG_PATH string
 
 func GetCmd() (*cli.App, *types.CommandFlag) {
 	root, _ := os.Getwd()
@@ -25,7 +26,7 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 			os.Exit(0)
 	}
 	//
-	// var showVersion bool
+	
 	app := &cli.App{
 		HideHelpCommand: true,
 		Name: "reslver-kit",
@@ -35,12 +36,6 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 			return nil
 		},
 		Flags: []cli.Flag{
-			// &cli.BoolFlag{
-			// 	Name: "version",
-			// 	Aliases: []string{"v"},
-			// 	Usage: "Show current version",
-			// 	Destination: &showVersion,
-			// },
 			&cli.BoolFlag{
 				Name: "debug",
 				Aliases: []string{"d"},
@@ -60,6 +55,7 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 				Aliases: []string{"c"},
 				Usage: "Load configuration from `DIR`",
 				Destination: &commands.ConfigsPath,
+				Value: root + "/" + DEFAULT_CONFIG_PATH,
 				EnvVars: []string{"RESLVER_PATH"},
 			},
 			&cli.StringFlag{
