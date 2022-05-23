@@ -11,8 +11,10 @@ import (
 var KIT_ROOT string
 
 func getAbsPath(path, root string) (string) {
-	result, _ := filepath.Abs(root + path)
-	return result
+	if !filepath.IsAbs(path){
+		path, _ = filepath.Abs(root + path)
+	}
+	return path
 }
 
 func Build(flags *types.CommandFlag, root string) (error) {

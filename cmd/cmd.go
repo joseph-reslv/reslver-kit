@@ -63,14 +63,14 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 				Aliases: []string{"i"},
 				Usage: "Load components from `DIR`",
 				Destination: &commands.InputPath,
-				FilePath: root,
+				Value: root ,
 			},
 			&cli.StringFlag{
 				Name: "output",
 				Aliases: []string{"o"},
 				Usage: "Output results to `DIR`",
 				Destination: &commands.OutputPath,
-				FilePath: root,
+				Value: root,
 			},
 		},
 	}
