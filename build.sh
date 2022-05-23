@@ -12,7 +12,7 @@ reslver_graph_generator_path="${root}/reslver-static-graph-exporter/reslver-grap
 reslver_graph_exporter_path="${root}/reslver-graph-exporter/sources/"
 
 echo "Clone submodules..."
-git submodules update --recursive --remote
+git submodule update --recursive --remote
 
 echo "Moving: Relsver..."
 cp -r "${reslver_path}" "${source}${reslver}"
