@@ -61,7 +61,7 @@ func GetCmd() (*cli.App, *types.CommandFlag) {
 			&cli.StringFlag{
 				Name: "input",
 				Aliases: []string{"i"},
-				Usage: "Load components from `DIR`",
+				Usage: "Load terraform states from `DIR`",
 				Destination: &commands.InputPath,
 				Value: root,
 			},
