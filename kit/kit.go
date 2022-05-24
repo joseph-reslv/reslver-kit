@@ -1,6 +1,7 @@
 package kit
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 
@@ -9,6 +10,21 @@ import (
 )
 
 var KIT_ROOT string
+
+func toFolder(path string) (string) {
+	if path[len(path)-1:] != "/" {
+		return path + "/"
+	}
+	return path
+}
+
+func checkConfigsFolder(configsPath string) (error) {
+	if !checkIsExist(configsPath) {
+		log.Logger.Println("Unabled to get reslver configurations, please try to run `reslver-kit init` to initialize reslver")
+		return errors.New("invalid configuration folder")
+	}
+	return nil
+}
 
 func getAbsPath(path, root string) (string) {
 	if !filepath.IsAbs(path){
@@ -28,12 +44,10 @@ func createOutputFolder(folderPath string) (error) {
 	return nil
 }
 
-func CleanUpSysFiles() (error) {
-	// remove generated files
-	log.DebugLogger.Println("remove reslver kit generated files")
-	_, err := os.Stat(KIT_ROOT)
+func cleanUp(path string) (error) {
+	_, err := os.Stat(path)
 	if !os.IsNotExist(err){
-		if err := os.RemoveAll(KIT_ROOT); err != nil {
+		if err := os.RemoveAll(path); err != nil {
 			log.DebugLogger.Println(err)
 			return err
 		}
@@ -41,14 +55,17 @@ func CleanUpSysFiles() (error) {
 	return nil
 }
 
+func CleanUpSysFiles() (error) {
+	return cleanUp(KIT_ROOT)
+}
+
 func Build(flags *types.CommandFlag, root string) (error) {
 	// remove generated files
 	CleanUpSysFiles()
-
-	input := getAbsPath(flags.InputPath, root)
+	input := toFolder(getAbsPath(flags.InputPath, root))
 	outputTemp := root + KIT_ROOT
-	output := getAbsPath(flags.OutputPath, root) + "/"
-	config := flags.ConfigsPath + "/"
+	output := toFolder(getAbsPath(flags.OutputPath, root))
+	config := toFolder(flags.ConfigsPath)
 	debug := flags.Debug
 	yaml, err := getYamlConfig(flags.ConfigYAML)
 	if err != nil {
@@ -61,7 +78,9 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	if err := createOutputFolder(output); err != nil {
 		return err
 	}
-	downloadConfigsFromGit(config)
+	if err := checkConfigsFolder(config); err != nil {
+		return err
+	}
 	
 	// run tf loader
 	input, err = runTFLoader(input, outputTemp + "_tfloader/", config, debug)
@@ -96,7 +115,16 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	if err != nil {
 		return err
 	}
+	log.Logger.Println("All results generated in [", output, "]")
 
-	CleanUpSysFiles()
+	return CleanUpSysFiles()
+}
+
+func Init(flags *types.CommandFlag, root string) (error) {
+	config := toFolder(flags.ConfigsPath)
+	err := downloadConfigsFromGit(config, flags.Force)
+	if err != nil {
+		return err
+	}
 	return nil
 }

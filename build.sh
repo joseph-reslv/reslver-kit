@@ -19,10 +19,10 @@ echo "Cloning: submodules..."
 git submodule init
 git submodule update --recursive --remote
 
-echo "Moving: Relsver..."
+echo "Copying: Relsver..."
 cp -r "${reslver_path}" "${source}${reslver}"
 
-echo "Moving: Relsver TF Loader..."
+echo "Copying: Relsver TF Loader..."
 cp -r "${reslver_tf_loader_path}" "${source}${reslver_tf_loader}"
 
 echo "Building: Reslver Static Graph Generator"
@@ -34,10 +34,10 @@ zip "${reslver_graph_generator_file}.zip" ${reslver_graph_generator_file}
 rm ${reslver_graph_generator_file}
 cd ${root}
 
-echo "Moving: Relsver Graph Exporter..."
+echo "Copying: Relsver Graph Exporter..."
 cp -r "${reslver_graph_exporter_path}" "${source}${reslver_graph_exporter}"
 
-echo "Moving: Reslver Configs..."
+echo "Copying: Reslver Configs..."
 cp -r "${reslver_configs_path}" "${source}${reslver_configs}"
 
 # point back to current dir

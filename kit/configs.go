@@ -12,31 +12,40 @@ var CONFIGS_REPO string
 var ReslverConfigsFileSystem embed.FS
 var ReslverConfigsSource = "sources/reslver-configs/"
 
-func checkConfigsFolderIsExist(configsPath string) (bool) {
+func checkIsExist(configsPath string) (bool) {
 	if _, err := os.Stat(configsPath); os.IsNotExist(err) {
 		return false	
 	}
 	return true
 }
 
-func downloadConfigsFromGit(configsPath string) (error) {
-	if !checkConfigsFolderIsExist(configsPath) {
-		log.Logger.Println("Copying reslver configurations")
-		log.DebugLogger.Println("download reslver configurations")
-		_, err := git.PlainClone(configsPath, false, &git.CloneOptions{
-			URL: CONFIGS_REPO,
-			Progress: os.Stdout,
-		})
-		if err != nil {
-			log.DebugLogger.Println("Unabled to clone reslver configuration, please try clone the configuration manually:", CONFIGS_REPO)
-			log.DebugLogger.Println("Copy default configurations instead")
-			if err := copyFilesFromEmbedFS(".", ReslverConfigsSource, configsPath, &ReslverConfigsFileSystem); err != nil {
-				log.DebugLogger.Println("Unabled to copy default configurations, kill process")
-				os.Exit(0)
+func downloadConfigsFromGit(configsPath string, force bool) (error) {
+	log.Logger.Println("Initializing reslver configurations")
+	if checkIsExist(configsPath) {
+		if !force {
+			log.Logger.Println("Configurations folder is found, please remove it manually or run with `--force` to force clear the folder")
+			return nil
+		} else {
+			log.Logger.Println("Clearing old reslver configurations")
+			if err := cleanUp(configsPath); err != nil {
 				return err
 			}
 		}
-		log.Logger.Println("Copied reslver configurations")
 	}
+	log.Logger.Println("Downloading reslver configurations")
+	_, err := git.PlainClone(configsPath, false, &git.CloneOptions{
+		URL: CONFIGS_REPO,
+		Progress: os.Stdout,
+	})
+	if err != nil {
+		log.Logger.Println("Unabled to clone reslver configuration, please try clone the configuration manually:", CONFIGS_REPO)
+		log.Logger.Println("Copying default configurations instead")
+		if err := copyFilesFromEmbedFS(".", ReslverConfigsSource, configsPath, &ReslverConfigsFileSystem); err != nil {
+			log.Logger.Println("Unabled to copy default configurations")
+			os.Exit(0)
+			return err
+		}
+	}
+	log.Logger.Println("Initialized reslver configurations")
 	return nil
 }

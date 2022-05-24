@@ -7,6 +7,7 @@ import (
 	"git.k8s.app/joseph/reslver-kit/cmd"
 	"git.k8s.app/joseph/reslver-kit/kit"
 	log "git.k8s.app/joseph/reslver-kit/logger"
+	"git.k8s.app/joseph/reslver-kit/types"
 )
 
 var VERSION = "1.0.0"
@@ -29,19 +30,28 @@ var graphGeneratorFileSystem embed.FS
 //go:embed sources/reslver-configs
 var reslverConfigsFileSystem embed.FS
 
+func RunInit(flags *types.CommandFlag, root string) (error) {
+	log.SetLogger("Reslver Kit", flags.Debug)
+	return kit.Init(flags, root)
+}
+
+func RunApply(flags *types.CommandFlag, root string) (error) {
+	log.SetLogger("Reslver Kit", flags.Debug)
+	err := kit.Build(flags, root)
+	if err != nil {
+		log.Logger.Printf("ERROR: %s", err.Error())
+		kit.CleanUpSysFiles()
+		return err
+	}
+	return nil
+}
+
 func main() {
 	root, _ := os.Getwd()
 	root += "/"
 	
 	cmd.VERSION = VERSION
 	cmd.DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_PATH
-	cli, flags := cmd.GetCmd()
-	err := cli.Run(os.Args)
-	if err != nil {
-		return
-	}
-	log.SetLogger("Reslver Kit", flags.Debug)
-
 	// map kit fs to embed fs
 	kit.TfLoaderFileSystem = tfLoaderFileSystem
 	kit.ReslverFileSystem = reslverFileSystem
@@ -51,10 +61,9 @@ func main() {
 	kit.KIT_ROOT = KIT_ROOT
 	kit.CONFIGS_REPO = CONFIGS_REPO
 
-	err = kit.Build(flags, root)
+	cli := cmd.GetCmd(root, RunInit, RunApply)
+	err := cli.Run(os.Args)
 	if err != nil {
-		log.Logger.Printf("ERROR: %s", err.Error())
-		kit.CleanUpSysFiles()
 		return
 	}
 }
