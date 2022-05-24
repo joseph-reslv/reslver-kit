@@ -64,6 +64,6 @@ func main() {
 	cli := cmd.GetCmd(root, RunInit, RunApply)
 	err := cli.Run(os.Args)
 	if err != nil {
-		return
+		os.Exit(2)
 	}
 }

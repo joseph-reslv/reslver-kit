@@ -119,8 +119,13 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 	}
 	log.DebugLogger.Printf("Graph generator runs with [%s, --yaml-config, %s, --output, %s]", sourceCodePath + GeneratorFilename, yamlPath, outputPath)
 	cmd := exec.Command(sourceCodePath + GeneratorFilename, "--yaml-config", yamlPath, "--output", outputPath)
-	if err = cmd.Run(); err != nil {
+	out, err := cmd.Output()
+	if err != nil {
 		return "", errors.New("unable to run graph generator")
+	}
+	msg := string(out)
+	if strings.Contains(msg, "error") {
+		return "", errors.New("graph generator returns error, please check YAML configuration whether is correct")
 	}
 	log.Logger.Println("Graph generator run successfully")
 	return "", nil
