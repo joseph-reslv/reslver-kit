@@ -125,7 +125,7 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 	}
 	msg := string(out)
 	if strings.Contains(msg, "error") {
-		return "", errors.New("graph generator returns error, please check YAML configuration whether is correct")
+		return "", errors.New("graph generator got error, please check YAML configuration whether is correct")
 	}
 	log.Logger.Println("Graph generator run successfully")
 	return "", nil
