@@ -8,6 +8,7 @@ type CommandFlag struct {
 	InputPath string
 	OutputPath string
 	Force bool
+	Template string
 }
 
 type InitFunc func(flags *CommandFlag, root string) (error)

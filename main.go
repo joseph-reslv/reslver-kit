@@ -30,6 +30,9 @@ var graphGeneratorFileSystem embed.FS
 //go:embed sources/reslver-configs
 var reslverConfigsFileSystem embed.FS
 
+//go:embed templates
+var templatesFileSystem embed.FS
+
 func RunInit(flags *types.CommandFlag, root string) (error) {
 	log.SetLogger("Reslver Kit", flags.Debug)
 	return kit.Init(flags, root)
@@ -58,6 +61,7 @@ func main() {
 	kit.GraphModuleFileSystem = graphModuleFileSystem
 	kit.GraphGeneratorFileSystem = graphGeneratorFileSystem
 	kit.ReslverConfigsFileSystem = reslverConfigsFileSystem
+	kit.TemplatesFileSystem = templatesFileSystem
 	kit.KIT_ROOT = KIT_ROOT
 	kit.CONFIGS_REPO = CONFIGS_REPO
 

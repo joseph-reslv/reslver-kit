@@ -23,7 +23,7 @@ func downloadConfigsFromGit(configsPath string, force bool) (error) {
 	log.Logger.Println("Initializing reslver configurations")
 	if checkIsExist(configsPath) {
 		if !force {
-			log.Logger.Println("Configurations folder is found, please remove it manually or run with `--force` to force clear the folder")
+			log.Logger.Println("Configurations folder is found [", configsPath,"], please remove it manually or run with `--force` to force clear the folder")
 			return nil
 		} else {
 			log.Logger.Println("Clearing old reslver configurations")

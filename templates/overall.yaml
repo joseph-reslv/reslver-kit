@@ -1,0 +1,9 @@
+name: level1-overall
+description: "Level 1 (Overall)"
+diagram: overall
+accounts: ""
+# groups:
+#   - name: ""
+#     type: ""
+#     includeFilter: # exactFilter | prefixFilter | suffixFilter | containsFilter | regexFilter
+#       - ""

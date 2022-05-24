@@ -12,7 +12,7 @@
 
 ### Install Reslver Kit
 
-**_please make sure you have right to clone the repositories under this repository._**
+**_please make sure you have right to clone those repositories under this repository._**
 
 ```
 . ./build.sh

@@ -126,5 +126,10 @@ func Init(flags *types.CommandFlag, root string) (error) {
 	if err != nil {
 		return err
 	}
+	if flags.Template != "" {
+		if err := getTemplates(root, flags.Template, flags.Force); err != nil {
+			return err
+		}
+	}
 	return nil
 }
