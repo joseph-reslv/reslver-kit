@@ -4,6 +4,22 @@
 
 ---
 
+## Installation
+
+### Prerequisite
+
+> This project is required to install: [Golang 1.17^](https://go.dev/), and [Python3 3.7^](https://www.python.org)
+
+### Install Reslver Kit
+
+**_please make sure you have right to clone the repositories under this repository._**
+
+```
+. ./build.sh
+```
+
+---
+
 ## Usages
 
 ### reslver-kit --help
