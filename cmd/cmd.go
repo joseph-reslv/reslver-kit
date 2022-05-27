@@ -41,6 +41,13 @@ func GetCmd(root string, init types.InitFunc, apply types.ApplyFunc) (*cli.App) 
 					return init(commands, root)
 				},
 				Flags: []cli.Flag{
+					&cli.BoolFlag{
+						Name: "debug",
+						Aliases: []string{"d"},
+						Usage: "Enable debug mode",
+						Destination: &commands.Debug,
+						Value: false,
+					},
 					&cli.StringFlag{
 						Name: "config",
 						Aliases: []string{"c"},
