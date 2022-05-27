@@ -43,7 +43,9 @@ func RunApply(flags *types.CommandFlag, root string) (error) {
 	err := kit.Build(flags, root)
 	if err != nil {
 		log.Logger.Printf("ERROR: %s", err.Error())
-		kit.CleanUpSysFiles()
+		if !flags.Debug {
+			kit.CleanUpSysFiles()
+		}
 		return err
 	}
 	return nil

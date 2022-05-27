@@ -117,7 +117,10 @@ func Build(flags *types.CommandFlag, root string) (error) {
 	}
 	log.Logger.Println("All results generated in [", output, "]")
 
-	return CleanUpSysFiles()
+	if !flags.Debug {
+		return CleanUpSysFiles()
+	}
+	return nil
 }
 
 func Init(flags *types.CommandFlag, root string) (error) {
