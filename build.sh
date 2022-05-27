@@ -30,7 +30,7 @@ python3 ./install.py
 cd ${reslver_graph_generator_path}
 pyinstaller --clean --onefile "reslvergraph.py" --distpath ${source}${reslver_graph_generator} --log-level WARN
 cd ${source}${reslver_graph_generator}
-zip "${reslver_graph_generator_file}.zip" ${reslver_graph_generator_file}
+tar cvzf "${reslver_graph_generator_file}.tar.gz" ${reslver_graph_generator_file}
 rm ${reslver_graph_generator_file}
 cd ${root}
 

@@ -1,6 +1,8 @@
 package kit
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"embed"
 	"errors"
 	"io/fs"
@@ -95,11 +97,31 @@ func moveYamlConfig(yamlPath, toPath string) (string, error) {
 }
 
 func unzipGraphGenerator(dirPath string, filePath string) (error) {
-	filePath += ".zip"
-	log.DebugLogger.Printf("Zips graph generator with [unzip, %s] in [%s]", filePath, dirPath)
-	cmd := exec.Command("unzip", filePath)
-	cmd.Dir = dirPath
-	if err := cmd.Run(); err != nil {
+	sourcePath := dirPath + filePath
+	filePath = dirPath + filePath + ".tar.gz"
+	log.DebugLogger.Printf("extracting gzip tar graph generator")
+	file, err := os.Open(filePath)
+	if err != nil {
+		log.DebugLogger.Println(err)
+		return errors.New("unable to unzip graph generator")
+	}
+	defer file.Close()
+	gz, err := gzip.NewReader(file)
+	if err != nil {
+		log.DebugLogger.Println(err)
+		return errors.New("unable to unzip graph generator")
+	}
+	defer gz.Close()
+	tr := tar.NewReader(gz)
+	tr.Next()
+
+	buf, err := ioutil.ReadAll(tr)
+	if err != nil {
+		log.DebugLogger.Println(err)
+		return errors.New("unable to unzip graph generator")
+	}
+	if err := os.WriteFile(sourcePath, buf, 0777); err != nil {
+		log.DebugLogger.Println(err)
 		return errors.New("unable to unzip graph generator")
 	}
 	return nil
