@@ -1,0 +1,30 @@
+name: level2 # filename of generated diagram image
+description: "Level 2" # diagram title shown in diagram
+diagram: level2 # diagram type [overall | level2]
+data: "path to file" # the graph data JSON used to generate the diagram [default: graph.json] (optional)
+diagramProperties:
+  showId: true # whether shows the components ID (optional)
+accounts: "" # account name (current not support)
+vpc: "" # decide which VPC should bw shown (filter out others VPCs and their components)
+networks: # decide what network components should be shown
+  domains: # route 53 in AWS
+    - "" # name of route 53 with exact filter
+  loadbalancers: # LB in aws
+    exactFilter: # other possible filters [exactFilter | prefixFilter | suffixFilter | containsFilter | regexFilter]
+      - "" # name of the LB with selected filter
+dependencies: "" # groups.name - groups.name - groups.name ...
+groups: # determine groupings (list of groups objects)
+  - name: "" # name of the group *NO space is allowed
+    type: "computing" # type of the group (currently supports [computing | db] )
+    prefixFilter: # other possible filters [exactFilter | prefixFilter | suffixFilter | containsFilter | regexFilter]
+      - "" # the value used to look up by the filter
+  - name: ""
+    type: "db"
+    exactFilter:
+      - ""
+    properties: # special properties used in grouping
+      - name: primarySubnet # use to define the primary DB *DB group type ONLY
+        value: "" # subnet name by exact filter
+alias: # the name of components to be shown in graph
+  - id: "" # component id
+    value: "" # desired name (to be shwon in graph)

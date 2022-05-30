@@ -66,7 +66,7 @@ func GetCmd(root string, init types.InitFunc, apply types.ApplyFunc) (*cli.App) 
 					&cli.StringFlag{
 						Name: "template",
 						Aliases: []string{"t"},
-						Usage: "Indicate which default YAML configuration template should be generated [ overall | level2 ]",
+						Usage: "Indicate which default YAML configuration template should be generated [ sample | overall | level2 ]",
 						Destination: &commands.Template,
 						Value: "",
 					},
