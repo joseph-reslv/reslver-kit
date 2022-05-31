@@ -1,0 +1,5 @@
+git:
+  git.k8s.app:
+    pattern: "git.k8s.app/([^/]+)/([^/]+)"
+    substitute: "ssh://git@git.k8s.app:22/$1/$2.git"
+    auth: ssh
