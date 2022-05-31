@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"embed"
 	"errors"
+	"io"
 	"io/fs"
 	"io/ioutil"
 	"os"
@@ -16,7 +17,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var GeneratorFilename = "./reslvergraph"
+var ZipFilename = "reslvergraph"
+var ExecFilename = "reslvergraph.py"
 var GraphGeneratorFileSystem embed.FS
 var	GraphGeneratorSource = "sources/reslver-static-graph-exporter/"
 
@@ -59,6 +61,51 @@ func getYamlConfig(yamlPath string) (string, error) {
 	return yamlPath, nil
 }
 
+/* utils */
+func ExtractTarGz(tarReader *tar.Reader, path string) (error) {
+	for {
+		header, err := tarReader.Next()
+		if err == io.EOF {
+				break
+		}
+		if header.Name == "./" || header.Name == "../" {
+			continue
+		}
+
+		if err != nil {
+				log.DebugLogger.Printf("ExtractTarGz: Next() failed: %s", err.Error())
+				return err
+		}
+
+		switch header.Typeflag {
+			case tar.TypeDir:
+				if err := os.Mkdir(path + header.Name, 0755); err != nil {
+						log.DebugLogger.Printf("ExtractTarGz: Mkdir() failed: %s", err.Error())
+						return err
+				}
+			case tar.TypeReg:
+				outFile, err := os.Create(path + header.Name)
+				if err != nil {
+						log.DebugLogger.Printf("ExtractTarGz: Create() failed: %s", err.Error())
+						return err
+				}
+				if _, err := io.Copy(outFile, tarReader); err != nil {
+						log.DebugLogger.Printf("ExtractTarGz: Copy() failed: %s", err.Error())
+						return err
+				}
+				outFile.Close()
+
+			default:
+				log.DebugLogger.Printf(
+						"ExtractTarGz: uknown type: %s in %s",
+						string(header.Typeflag),
+						string(path + header.Name))
+						return err
+		}
+	}
+	return nil
+}
+
 func copyFilesFromEmbedFS(rootPath, fromPath, toPath string, f *embed.FS) (error) {
 	err := fs.WalkDir(f, rootPath, func(s string, d fs.DirEntry, e error) error {
 		if e != nil { return e }
@@ -97,7 +144,6 @@ func moveYamlConfig(yamlPath, toPath string) (string, error) {
 }
 
 func unzipGraphGenerator(dirPath string, filePath string) (error) {
-	sourcePath := dirPath + filePath
 	filePath = dirPath + filePath + ".tar.gz"
 	log.DebugLogger.Printf("extracting gzip tar graph generator")
 	file, err := os.Open(filePath)
@@ -113,17 +159,7 @@ func unzipGraphGenerator(dirPath string, filePath string) (error) {
 	}
 	defer gz.Close()
 	tr := tar.NewReader(gz)
-	tr.Next()
-
-	buf, err := ioutil.ReadAll(tr)
-	if err != nil {
-		log.DebugLogger.Println(err)
-		return errors.New("unable to unzip graph generator")
-	}
-	if err := os.WriteFile(sourcePath, buf, 0777); err != nil {
-		log.DebugLogger.Println(err)
-		return errors.New("unable to unzip graph generator")
-	}
+	ExtractTarGz(tr, dirPath)
 	return nil
 }
 
@@ -136,11 +172,11 @@ func runGraphGenerator(inputPath, outputPath, yamlPath, sourceCodePath string) (
 		return "", err
 	}
 	log.Logger.Println("Running graph generator")
-	if err = unzipGraphGenerator(sourceCodePath, GeneratorFilename); err != nil {
+	if err = unzipGraphGenerator(sourceCodePath, ZipFilename); err != nil {
 		return "", err
 	}
-	log.DebugLogger.Printf("Graph generator runs with [%s, --yaml-config, %s, --output, %s]", sourceCodePath + GeneratorFilename, yamlPath, outputPath)
-	cmd := exec.Command(sourceCodePath + GeneratorFilename, "--yaml-config", yamlPath, "--output", outputPath)
+	log.DebugLogger.Printf("Graph generator runs with [python3, %s, --yaml-config, %s, --output, %s]", sourceCodePath + ExecFilename, yamlPath, outputPath)
+	cmd := exec.Command("python3", sourceCodePath + ExecFilename, "--yaml-config", yamlPath, "--output", outputPath)
 	out, err := cmd.Output()
 	if err != nil {
 		return "", errors.New("unable to run graph generator")

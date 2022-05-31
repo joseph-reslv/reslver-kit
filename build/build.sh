@@ -26,12 +26,10 @@ echo "Copying: Relsver TF Loader"
 cp -r "${reslver_tf_loader_path}" "${source}${reslver_tf_loader}"
 
 echo "Building: Reslver Static Graph Generator"
-python3 ./install.py
 cd ${reslver_graph_generator_path}
-pyinstaller --clean --onefile "reslvergraph.py" --distpath ${source}${reslver_graph_generator} --log-level WARN
-cd ${source}${reslver_graph_generator}
-tar cvzf "${reslver_graph_generator_file}.tar.gz" ${reslver_graph_generator_file}
-rm ${reslver_graph_generator_file}
+tar cvzf "${reslver_graph_generator_file}.tar.gz" .
+cp "${reslver_graph_generator_file}.tar.gz" "${source}${reslver_graph_generator}"
+rm "${reslver_graph_generator_file}.tar.gz"
 cd ${root}
 
 echo "Copying: Relsver Graph Exporter"
@@ -44,4 +42,4 @@ cp -r "${reslver_configs_path}" "${source}${reslver_configs}"
 cd ${root}
 
 echo "Installing: Reslver Kit"
-go install
+go build
