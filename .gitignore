@@ -16,4 +16,8 @@ sources
 .reslver_sys/*
 dist/
 
-dist/
+reslver
+reslver-configs
+reslver-excel-exporter
+reslver-configs
+reslver-static-graph-exporter
