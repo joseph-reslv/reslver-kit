@@ -29,6 +29,6 @@ jobs:
       - name: Earthly version
         run: earthly --version
       - name: Earthly set GIT config
-        run: earthly config git."git.k8s.app".auth auto
+        run: earthly config 'git."git.k8s.app".auth' auto
       - name: Run build
         run: earthly --ci +release
