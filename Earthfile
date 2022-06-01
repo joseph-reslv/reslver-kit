@@ -94,7 +94,6 @@ release-local:
 
 release:
   ARG GITHUB_TOKEN
-  ARG TAG
   FROM +build
   COPY --dir +use-go-releaser/bin $GOPATH/
   # copy release configs
@@ -103,11 +102,6 @@ release:
   # copy repo files
   COPY --dir build reslver-configs reslver-static-graph-exporter ./
   COPY Earthfile README.md .gitmodules ./
-  # tag 
-  RUN git config --global user.name "auto release by earthly"
-  RUN git config --global user.email "joseph@reslv.io"
-  RUN git tag -a $TAG -m "release"
-  RUN git push origin $TAG 
 
   RUN goreleaser release
 
