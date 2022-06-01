@@ -19,5 +19,5 @@ dist/
 reslver
 reslver-configs
 reslver-excel-exporter
-reslver-configs
 reslver-static-graph-exporter
+reslver-tf-loader

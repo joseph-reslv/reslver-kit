@@ -95,12 +95,14 @@ release-local:
 release:
   FROM +build
   ARG GITHUB_TOKEN=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
-  # remove generated files
-  RUN rm -r sources
-  RUN rm reslver-kit
   COPY --dir +use-go-releaser/bin $GOPATH/
+  # copy release configs
   COPY --dir .git ./
-  COPY .goreleaser.yaml .gitignore ./ 
+  COPY .goreleaser.yaml .gitignore ./
+  # copy repo files
+  COPY --dir build reslver-configs reslver-static-graph-exporter ./
+  COPY Earthfile README.md .gitmodules ./
+
   RUN goreleaser release
 
 test:
