@@ -28,12 +28,25 @@ jobs:
         run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.14/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
       - name: Earthly version
         run: earthly --version
+      - name: Add SSH key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p /home/runner/.ssh
+          # Replace example.com with the hostname of the machine
+          # you're SSH-ing into
+          ssh-keyscan git.k8s.app >> /home/runner/.ssh/known_hosts
+          # SSH_PRIVATE_KEY is the name of the repository secret
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/.ssh/github_actions
+          chmod 600 /home/runner/.ssh/github_actions
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null   
+          ssh-add /home/runner/.ssh/github_actions
       - name: Earthly config
         run: |
           earthly config 'git."git.k8s.app".auth' ssh &&
           earthly config 'git."git.k8s.app".user' git && 
-          earthly config 'git."git.k8s.app".strict_host_key_checking' false &&
-          export DOCKER_BUILDKIT=0 &&
-          export COMPOSE_DOCKER_CLI_BUILD=0
+          earthly config 'git."git.k8s.app".strict_host_key_checking' false
       - name: Run build & release
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: earthly --ci +release
