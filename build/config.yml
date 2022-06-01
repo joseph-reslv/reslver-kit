@@ -1,12 +1,3 @@
-global:
-  buildkit_additional_config: |
-    [registry."git.k8s.app"]
-      http = true
-      insecure = true
-    [registry."k8s.app"]
-      http = true
-      insecure = true
-
 git:
   git.k8s.app:
     auth: auto
