@@ -84,13 +84,21 @@ build:
   RUN go build -o reslver-kit
   SAVE ARTIFACT reslver-kit AS LOCAL dist/reslver-kit
 
-release:
+release-local:
   FROM +build
   COPY --dir +use-go-releaser/bin $GOPATH/
   COPY --dir .git ./
   COPY .goreleaser.yaml ./ 
   RUN goreleaser release --snapshot --rm-dist
   SAVE ARTIFACT dist AS LOCAL dist
+
+release:
+  FROM +build
+  ARG GITHUB_TOKEN=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
+  COPY --dir +use-go-releaser/bin $GOPATH/
+  COPY --dir .git ./
+  COPY .goreleaser.yaml ./ 
+  RUN goreleaser release
 
 test:
   # nothing to do
