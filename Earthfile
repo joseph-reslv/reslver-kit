@@ -100,7 +100,7 @@ release:
   COPY --dir .git ./
   COPY .goreleaser.yaml .gitignore ./
   # copy repo files
-  COPY --dir build reslver-configs reslver-static-graph-exporter ./
+  COPY --dir build reslver-configs reslver-static-graph-exporter .github ./
   COPY Earthfile README.md .gitmodules ./
 
   RUN goreleaser release
