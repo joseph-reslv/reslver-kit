@@ -1,8 +1,6 @@
 VERSION 0.6
 FROM golang:1.18
 WORKDIR /reslver-kit
-ARG GITHUB_TOKEN
-ARG TAG
 
 ### Release Flow ###
 # 1. clone submodules git repository
@@ -95,6 +93,8 @@ release-local:
   SAVE ARTIFACT dist AS LOCAL dist
 
 release:
+  ARG GITHUB_TOKEN
+  ARG TAG
   FROM +build
   COPY --dir +use-go-releaser/bin $GOPATH/
   # copy release configs
@@ -104,12 +104,16 @@ release:
   COPY --dir build reslver-configs reslver-static-graph-exporter ./
   COPY Earthfile README.md .gitmodules ./
   # tag 
+  RUN git config --global user.name "auto release by earthly"
+  RUN git config --global user.email "joseph@reslv.io"
   RUN git tag -a $TAG -m "release"
-  RUN git push origin $TAG
+  RUN git push origin $TAG 
 
   RUN goreleaser release
 
 test:
+  ARG GITHUB_TOKEN
+  ARG TAG
   RUN echo $TAG
   RUN echo $GITHUB_TOKEN
   # nothing to do
