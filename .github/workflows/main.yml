@@ -49,4 +49,4 @@ jobs:
       - name: Run build & release
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: earthly --ci +release
+        run: earthly --ci --GITHUB_TOKEN="${{ secrets.GIT_ACCESS_TOKEN }}" +release
