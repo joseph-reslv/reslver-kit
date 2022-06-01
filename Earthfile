@@ -80,7 +80,7 @@ use-go-releaser:
 build:
   FROM +deps
   COPY --dir cmd kit logger templates types ./
-  COPY main.go .goreleaser.yaml ./ 
+  COPY main.go ./
   RUN go build -o reslver-kit
   SAVE ARTIFACT reslver-kit AS LOCAL dist/reslver-kit
 
@@ -88,6 +88,7 @@ release:
   FROM +build
   COPY --dir +use-go-releaser/bin $GOPATH/
   COPY --dir .git ./
+  COPY .goreleaser.yaml ./ 
   RUN goreleaser release --snapshot --rm-dist
   SAVE ARTIFACT dist AS LOCAL dist
 
