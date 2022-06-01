@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: self-hosted
     env:
+      GITHUB_TOKEN: ${{ secrets.GIT_ACCESS_TOKEN }}
       FORCE_COLOR: 1
     steps:
       - uses: actions/checkout@v2
@@ -48,4 +49,4 @@ jobs:
       - name: Run build & release
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: earthly --ci --secret GITHUB_TOKEN="${{ secrets.GIT_ACCESS_TOKEN }}" +release
+        run: earthly --ci --secret GITHUB_TOKEN=$GITHUB_TOKEN +release
