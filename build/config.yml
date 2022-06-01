@@ -1,5 +1,12 @@
+global:
+  buildkit_additional_config: |
+    [registry."git.k8s.app"]
+      http = true
+      insecure = true
+    [registry."k8s.app"]
+      http = true
+      insecure = true
+
 git:
   git.k8s.app:
-    pattern: "git.k8s.app/([^/]+)/([^/]+)"
-    substitute: "ssh://git@git.k8s.app:22/$1/$2.git"
-    auth: ssh
+    auth: auto
