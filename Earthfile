@@ -1,6 +1,8 @@
 VERSION 0.6
 FROM golang:1.18
 WORKDIR /reslver-kit
+ARG GITHUB_TOKEN
+ARG TAG
 
 ### Release Flow ###
 # 1. clone submodules git repository
@@ -94,7 +96,6 @@ release-local:
 
 release:
   FROM +build
-  ARG GITHUB_TOKEN=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
   COPY --dir +use-go-releaser/bin $GOPATH/
   # copy release configs
   COPY --dir .git ./
@@ -102,8 +103,13 @@ release:
   # copy repo files
   COPY --dir build reslver-configs reslver-static-graph-exporter ./
   COPY Earthfile README.md .gitmodules ./
+  # tag 
+  RUN git tag -a $TAG -m "release"
+  RUN git push origin $TAG
 
   RUN goreleaser release
 
 test:
+  RUN echo $TAG
+  RUN echo $GITHUB_TOKEN
   # nothing to do
