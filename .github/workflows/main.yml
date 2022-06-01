@@ -29,6 +29,9 @@ jobs:
       - name: Earthly version
         run: earthly --version
       - name: Earthly config - git
-        run: earthly config 'git."git.k8s.app".auth' ssh && earthly config 'git."git.k8s.app".user' git
+        run: |
+          earthly config 'git."git.k8s.app".auth' ssh &&
+          earthly config 'git."git.k8s.app".user' git && 
+          earthly config 'git."git.k8s.app".strict_host_key_checking' false
       - name: Run build & release
         run: earthly --ci +release
