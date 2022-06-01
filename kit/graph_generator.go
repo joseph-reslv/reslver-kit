@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	log "git.k8s.app/joseph/reslver-kit/logger"
+	log "git.k8s.app/resolve/reslver-kit/logger"
 	"gopkg.in/yaml.v2"
 )
 

@@ -4,7 +4,7 @@ import (
 	"io"
 	"os"
 
-	"git.k8s.app/joseph/reslver-kit/types"
+	"git.k8s.app/resolve/reslver-kit/types"
 	"github.com/urfave/cli/v2"
 )
 

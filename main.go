@@ -4,10 +4,10 @@ import (
 	"embed"
 	"os"
 
-	"git.k8s.app/joseph/reslver-kit/cmd"
-	"git.k8s.app/joseph/reslver-kit/kit"
-	log "git.k8s.app/joseph/reslver-kit/logger"
-	"git.k8s.app/joseph/reslver-kit/types"
+	"git.k8s.app/resolve/reslver-kit/cmd"
+	"git.k8s.app/resolve/reslver-kit/kit"
+	log "git.k8s.app/resolve/reslver-kit/logger"
+	"git.k8s.app/resolve/reslver-kit/types"
 )
 
 var VERSION = "1.0.0"

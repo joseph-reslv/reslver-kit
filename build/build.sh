@@ -1,5 +1,6 @@
 root=$(pwd)
 source="${root}/sources/"
+mkdir "${source}"
 
 reslver="reslver/"
 reslver_tf_loader="reslver-tf-loader/"
@@ -28,6 +29,7 @@ cp -r "${reslver_tf_loader_path}" "${source}${reslver_tf_loader}"
 echo "Building: Reslver Static Graph Generator"
 cd ${reslver_graph_generator_path}
 tar cvzf "${reslver_graph_generator_file}.tar.gz" .
+mkdir "${source}${reslver_graph_generator}"
 cp "${reslver_graph_generator_file}.tar.gz" "${source}${reslver_graph_generator}"
 rm "${reslver_graph_generator_file}.tar.gz"
 cd ${root}

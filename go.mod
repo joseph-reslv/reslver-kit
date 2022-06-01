@@ -1,4 +1,4 @@
-module git.k8s.app/joseph/reslver-kit
+module git.k8s.app/resolve/reslver-kit
 
 go 1.17
 

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	log "git.k8s.app/joseph/reslver-kit/logger"
+	log "git.k8s.app/resolve/reslver-kit/logger"
 )
 
 var TemplatesFileSystem embed.FS

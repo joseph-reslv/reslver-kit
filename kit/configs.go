@@ -4,7 +4,7 @@ import (
 	"embed"
 	"os"
 
-	log "git.k8s.app/joseph/reslver-kit/logger"
+	log "git.k8s.app/resolve/reslver-kit/logger"
 	"github.com/go-git/go-git/v5"
 )
 

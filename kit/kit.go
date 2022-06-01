@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	log "git.k8s.app/joseph/reslver-kit/logger"
-	"git.k8s.app/joseph/reslver-kit/types"
+	log "git.k8s.app/resolve/reslver-kit/logger"
+	"git.k8s.app/resolve/reslver-kit/types"
 )
 
 var KIT_ROOT string
