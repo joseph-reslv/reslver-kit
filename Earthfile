@@ -107,7 +107,5 @@ release:
 
 test:
   ARG GITHUB_TOKEN
-  ARG TAG
-  RUN echo $TAG
   RUN echo $GITHUB_TOKEN
   # nothing to do
