@@ -1,8 +1,17 @@
 VERSION 0.6
-FROM golang:1.17
+FROM golang:1.18
 WORKDIR /reslver-kit
 
-# build go tool
+### Release Flow ###
+# 1. clone submodules git repository
+# 2. save them as source code (main) & template (sources) 
+# 3. download go dependencies (go mod download)
+# 4. copy reslver-kit source codes (folder & main.go)
+# 5. build reslver-kit
+# 6. install goreleaser to release go tool (it can build cross platforms binary)
+# 7. copy reslver-kit .git for goreleaser (goreleaser requires git repo)
+# 8. run goreleaser to release (build) cross platforms binary LOCALLY
+# 9. release all binary to git repo
 
 clone-reslver:
   GIT CLONE git@git.k8s.app:joseph/reslver.git reslver
@@ -61,13 +70,26 @@ deps:
   COPY --dir +clone/ ./
   COPY go.mod go.sum ./
   RUN go mod download
+  SAVE ARTIFACT go.mod
+  SAVE ARTIFACT go.sum
+
+use-go-releaser:
+  RUN go install github.com/goreleaser/goreleaser@latest
+  SAVE ARTIFACT $GOPATH/bin
 
 build:
   FROM +deps
   COPY --dir cmd kit logger templates types ./
-  COPY main.go ./
-  RUN go mod tidy
+  COPY main.go .goreleaser.yaml ./ 
+  RUN go build -o reslver-kit
+  SAVE ARTIFACT reslver-kit AS LOCAL dist/reslver-kit
 
-  RUN go build -o build/reslver-kit
-  SAVE ARTIFACT build/reslver-kit /reslver-kit AS LOCAL build/reslver-kit
+release:
+  FROM +build
+  COPY --dir +use-go-releaser/bin $GOPATH/
+  COPY --dir .git ./
+  RUN goreleaser release --snapshot --rm-dist
+  SAVE ARTIFACT dist AS LOCAL dist
 
+test:
+  # nothing to do
