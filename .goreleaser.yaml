@@ -17,7 +17,12 @@ release:
   prerelease: auto
   header: |
     Those were the changes on {{ .Tag }}!
-
+github_urls:
+  api: https://git.k8s.app/api/v3/
+  upload: https://git.k8s.app/api/uploads/
+  download: https://git.k8s.app/
+  # set to true if you use a self-signed certificate
+  skip_tls_verify: true
 archives:
   - replacements:
       darwin: Darwin
