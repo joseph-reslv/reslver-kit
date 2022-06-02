@@ -1,5 +1,9 @@
 # Reslver Kit
 
+[![CI - build & release](https://git.k8s.app/resolve/reslver-kit/actions/workflows/main.yml/badge.svg)](https://git.k8s.app/resolve/reslver-kit/actions/workflows/main.yml)
+
+A CLI tool that generate `excel report` and `diagrams` of existing infrastrcture from `tfstate` files.
+
 > Related Confluence Page: [Model Language](https://resolve.atlassian.net/wiki/spaces/P/pages/2165637181)
 
 ---
@@ -10,12 +14,12 @@
 
 > This project is required to install: [Golang 1.17^](https://go.dev/), and [Python3 3.7^](https://www.python.org)
 
-### Install Reslver Kit
+### Install Reslver Kit Locally
 
 **_please make sure you have right to clone those repositories under this repository._**
 
 ```
-. ./build.sh
+. build/build.sh
 ```
 
 ---
