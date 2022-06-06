@@ -10,6 +10,7 @@ import (
 )
 
 var KIT_ROOT string
+var DEFAULT_CONFIG_PATH string
 
 func toFolder(path string) (string) {
 	if path[len(path)-1:] != "/" {
@@ -124,7 +125,7 @@ func Build(flags *types.CommandFlag, root string) (error) {
 }
 
 func Init(flags *types.CommandFlag, root string) (error) {
-	config := toFolder(flags.ConfigsPath)
+	config := toFolder(root + DEFAULT_CONFIG_PATH)
 	err := downloadConfigsFromGit(config, flags.Force)
 	if err != nil {
 		return err

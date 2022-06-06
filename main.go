@@ -66,6 +66,7 @@ func main() {
 	kit.TemplatesFileSystem = templatesFileSystem
 	kit.KIT_ROOT = KIT_ROOT
 	kit.CONFIGS_REPO = CONFIGS_REPO
+	kit.DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_PATH
 
 	cli := cmd.GetCmd(root, RunInit, RunApply)
 	err := cli.Run(os.Args)

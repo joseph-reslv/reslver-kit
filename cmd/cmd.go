@@ -48,14 +48,6 @@ func GetCmd(root string, init types.InitFunc, apply types.ApplyFunc) (*cli.App) 
 						Destination: &commands.Debug,
 						Value: false,
 					},
-					&cli.StringFlag{
-						Name: "config",
-						Aliases: []string{"c"},
-						Usage: "Load configuration from `DIR`",
-						Destination: &commands.ConfigsPath,
-						Value: root + DEFAULT_CONFIG_PATH,
-						EnvVars: []string{"RESLVER_PATH"},
-					},
 					&cli.BoolFlag{
 						Name: "force",
 						Aliases: []string{"f"},

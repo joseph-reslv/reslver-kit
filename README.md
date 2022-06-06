@@ -58,9 +58,10 @@ USAGE:
    reslver-kit init [command options] [arguments...]
 
 OPTIONS:
-   --config DIR, -c DIR  Load configuration from DIR (default: "/**/Project/reslver/reslver-kit/examples/.reslver/configs/") [$RESLVER_PATH]
-   --force, -f           Force initialize all reslver configurations (default: false)
-   --help, -h            show help (default: false)
+   --debug, -d                 Enable debug mode (default: false)
+   --force, -f                 Force initialize all reslver configurations (default: false)
+   --template value, -t value  Indicate which default YAML configuration template should be generated [ sample | overall | level2 ]
+   --help, -h                  show help (default: false)
 ```
 
 ### reslver-kit apply --help

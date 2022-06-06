@@ -1,27 +1,6 @@
+# This is an example graph.yaml file.
+# Make sure to check the documentation at https://git.k8s.app/joseph/reslver-examples
 name: level2
 description: "Level 2 - General"
 diagram: level2
 accounts: ""
-# vpc: ""
-# networks:
-#   domains:
-#     - ""
-#   loadbalancers:
-#     exactFilter: # exactFilter | prefixFilter | suffixFilter | containsFilter | regexFilter
-#       - ""
-# dependencies: ""
-# groups:
-#   - name: ""
-#     type: "computing"
-#     prefixFilter: # exactFilter | prefixFilter | suffixFilter | containsFilter | regexFilter
-#       - ""
-#   - name: ""
-#     type: "db"
-#     exactFilter: # exactFilter | prefixFilter | suffixFilter | containsFilter | regexFilter
-#       - ""
-#     properties:
-#       - name: primarySubnet
-#         value: ""
-# alias:
-#   - id: ""
-#     value: ""
