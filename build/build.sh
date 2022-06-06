@@ -44,4 +44,4 @@ cp -r "${reslver_configs_path}" "${source}${reslver_configs}"
 cd ${root}
 
 echo "Installing: Reslver Kit"
-go build
+go install
