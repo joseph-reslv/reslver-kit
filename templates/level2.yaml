@@ -1,5 +1,5 @@
 # This is an example graph.yaml file.
-# Make sure to check the documentation at https://git.k8s.app/joseph/reslver-examples
+# Make sure to check the documentation at https://git.k8s.app/resolve/reslver-examples
 name: level2
 description: "Level 2 - General"
 diagram: level2
