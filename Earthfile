@@ -14,36 +14,28 @@ WORKDIR /reslver-kit
 # 9. release all binary to git repo
 
 clone-reslver:
-  GIT CLONE git@git.k8s.app:joseph/reslver.git reslver
+  GIT CLONE git@git.k8s.app:resolve/reslver.git reslver
   WORKDIR reslver
-  SAVE ARTIFACT . /main
   SAVE ARTIFACT ./sources /sources
 
 clone-reslver-tf-loader:
-  GIT CLONE git@git.k8s.app:joseph/reslver-tf-loader.git reslver-tf-loader
+  GIT CLONE git@git.k8s.app:resolve/reslver-tf-loader.git reslver-tf-loader
   WORKDIR reslver-tf-loader
-  SAVE ARTIFACT . /main
   SAVE ARTIFACT ./sources /sources
 
 clone-reslver-graph-exporter:
-  GIT CLONE git@git.k8s.app:joseph/reslver-graph-exporter.git reslver-graph-exporter
+  GIT CLONE git@git.k8s.app:resolve/reslver-graph-exporter.git reslver-graph-exporter
   WORKDIR reslver-graph-exporter
-  SAVE ARTIFACT . /main
   SAVE ARTIFACT ./sources /sources
 
-clone-reslver-excel-exporter:
-  GIT CLONE git@git.k8s.app:joseph/reslver-excel-exporter.git reslver-excel-exporter
-  WORKDIR reslver-excel-exporter
-  SAVE ARTIFACT . /main
-
-clone-reslver-static-graph-exporter:
-  GIT CLONE git@git.k8s.app:joseph/reslver-static-graph-exporter.git reslver-static-graph-exporter
-  WORKDIR reslver-static-graph-exporter
+clone-reslver-static-graph-generator:
+  GIT CLONE git@git.k8s.app:resolve/reslver-static-graph-generator.git reslver-static-graph-generator
+  WORKDIR reslver-static-graph-generator
   RUN tar cvzf reslver.tar.gz ./reslver-graph
   SAVE ARTIFACT ./reslver.tar.gz /sources/reslver.tar.gz
 
 clone-reslver-configs:
-  GIT CLONE git@git.k8s.app:joseph/reslver-configs reslver-configs
+  GIT CLONE git@git.k8s.app:resolve/reslver-configs reslver-configs
   WORKDIR reslver-configs
   SAVE ARTIFACT . /sources
 
@@ -51,25 +43,29 @@ clone:
   COPY --dir +clone-reslver/ reslver-repo
   COPY --dir +clone-reslver-tf-loader/ reslver-tf-loader-repo
   COPY --dir +clone-reslver-graph-exporter/ reslver-graph-exporter-repo
-  COPY --dir +clone-reslver-excel-exporter/ reslver-excel-exporter-repo
   COPY --dir +clone-reslver-configs/ reslver-configs-repo
-  COPY --dir +clone-reslver-static-graph-exporter/ reslver-static-graph-exporter-repo
-
-  SAVE ARTIFACT reslver-repo/main reslver
-  SAVE ARTIFACT reslver-tf-loader-repo/main reslver-tf-loader
-  SAVE ARTIFACT reslver-graph-exporter-repo/main reslver-graph-exporter
-  SAVE ARTIFACT reslver-excel-exporter-repo/main reslver-excel-exporter
+  COPY --dir +clone-reslver-static-graph-generator/ reslver-static-graph-generator-repo
 
   SAVE ARTIFACT reslver-repo/sources sources/reslver
   SAVE ARTIFACT reslver-tf-loader-repo/sources sources/reslver-tf-loader
   SAVE ARTIFACT reslver-graph-exporter-repo/sources sources/reslver-graph-exporter
   SAVE ARTIFACT reslver-configs-repo sources/reslver-configs
-  SAVE ARTIFACT reslver-static-graph-exporter-repo sources/reslver-static-graph-exporter
+  SAVE ARTIFACT reslver-static-graph-generator-repo sources/reslver-static-graph-generator
 
 deps:
+  ### workaround to get private repository package for Golang ###
+  # change git to use SSH instead of https
+  # attach ssh (use ssh-agent from env) 
+  # bypass golang security setting (must set GOINSECURE and GOPRIVATE)
+  RUN git config --global url."ssh://git@git.k8s.app/".insteadOf "https://git.k8s.app/"
+  RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan git.k8s.app >> ~/.ssh/known_hosts
+  RUN go env -w GOINSECURE=git.k8s.app
+  RUN go env -w GOPRIVATE=git.k8s.app
+  RUN git config --global http.sslVerify false
+  ###
   COPY --dir +clone/ ./
   COPY go.mod go.sum ./
-  RUN go mod download
+  RUN --ssh go mod download
   SAVE ARTIFACT go.mod
   SAVE ARTIFACT go.sum
 
@@ -79,16 +75,13 @@ use-go-releaser:
 
 build:
   FROM +deps
-  COPY --dir cmd kit logger templates types ./
-  COPY main.go ./
+  COPY . .
   RUN go build -o reslver-kit
   SAVE ARTIFACT reslver-kit AS LOCAL dist/reslver-kit
 
 release-local:
   FROM +build
   COPY --dir +use-go-releaser/bin $GOPATH/
-  COPY --dir .git ./
-  COPY .goreleaser.yaml ./ 
   RUN goreleaser release --snapshot --rm-dist
   SAVE ARTIFACT dist AS LOCAL dist
 
@@ -96,16 +89,7 @@ release:
   ARG GITHUB_TOKEN
   FROM +build
   COPY --dir +use-go-releaser/bin $GOPATH/
-  # copy release configs
-  COPY --dir .git ./
-  COPY .goreleaser.yaml .gitignore ./
-  # copy repo files
-  COPY --dir build reslver-configs reslver-static-graph-exporter .github ./
-  COPY Earthfile README.md .gitmodules ./
-
   RUN goreleaser release
 
 test:
-  ARG GITHUB_TOKEN
-  RUN echo $GITHUB_TOKEN
   # nothing to do

@@ -19,7 +19,10 @@ A CLI tool that generate `excel report` and `diagrams` of existing infrastrcture
 **_please make sure you have right to clone those repositories under this repository._**
 
 ```
-. build/build.sh
+earthly config 'git."git.k8s.app".auth' ssh && \
+earthly config 'git."git.k8s.app".user' git && \
+earthly config 'git."git.k8s.app".strict_host_key_checking' false && \
+earthly +build
 ```
 
 ---

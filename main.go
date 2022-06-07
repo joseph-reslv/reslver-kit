@@ -24,7 +24,7 @@ var graphModuleFileSystem embed.FS
 //go:embed sources/reslver
 var reslverFileSystem embed.FS
 
-//go:embed sources/reslver-static-graph-exporter
+//go:embed sources/reslver-static-graph-generator
 var graphGeneratorFileSystem embed.FS
 
 //go:embed sources/reslver-configs

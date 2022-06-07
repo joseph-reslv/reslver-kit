@@ -20,7 +20,7 @@ import (
 var ZipFilename = "reslvergraph"
 var ExecFilename = "reslvergraph.py"
 var GraphGeneratorFileSystem embed.FS
-var	GraphGeneratorSource = "sources/reslver-static-graph-exporter/"
+var	GraphGeneratorSource = "sources/reslver-static-graph-generator/"
 
 type YamlConfig struct {
 	Diagram string `yaml:"diagram"`
