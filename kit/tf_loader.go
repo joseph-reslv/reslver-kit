@@ -3,8 +3,8 @@ package kit
 import (
 	"embed"
 
-	tfLoader "git.k8s.app/joseph/reslver-tf-loader/core"
-	logger "git.k8s.app/joseph/reslver-tf-loader/logger"
+	tfLoader "git.k8s.app/resolve/reslver-tf-loader/core"
+	logger "git.k8s.app/resolve/reslver-tf-loader/logger"
 )
 
 var TfLoaderFileSystem embed.FS

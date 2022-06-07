@@ -1,8 +1,8 @@
 package kit
 
 import (
-	excel "git.k8s.app/joseph/reslver-excel-exporter/core"
-	logger "git.k8s.app/joseph/reslver-excel-exporter/logger"
+	excel "git.k8s.app/resolve/reslver-excel-exporter/core"
+	logger "git.k8s.app/resolve/reslver-excel-exporter/logger"
 )
 
 func runExcel(inputPath string, outputPath string, debug bool) (string, error) {

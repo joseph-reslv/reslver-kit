@@ -1,3 +1,11 @@
+git.k8s.app/resolve/reslver v0.1.0 h1:XlPJco9VADW7LUT4k8YFk8AqjZGlGHX//ZvuAYsTHlg=
+git.k8s.app/resolve/reslver v0.1.0/go.mod h1:cumxAYfWQa/cXK0AcaHEJ3Zjm4YDT1AhU+3sTchNdPM=
+git.k8s.app/resolve/reslver-excel-exporter v0.1.0 h1:Wd1Eaqrqt50GFogZ7QsuCep3mmuV0Va9uNGK3vLx1Qw=
+git.k8s.app/resolve/reslver-excel-exporter v0.1.0/go.mod h1:Wqbjs/IzBYHwiuzLVAUHK3PyFcdgowzGXF742P+/7NI=
+git.k8s.app/resolve/reslver-graph-exporter v0.1.0 h1:fPb/1X9xI/e+ue3B5I9PjBaKWDKHb2jsMb1qEi0WLh8=
+git.k8s.app/resolve/reslver-graph-exporter v0.1.0/go.mod h1:Q+SypuffJNbGBRn4NwL63X9z0QuNsq1gHfNIThvxF54=
+git.k8s.app/resolve/reslver-tf-loader v0.1.0 h1:w04iO7/pb0Mn4MCjAUeJNGxfa4f76MM6zhjpZvG1DKw=
+git.k8s.app/resolve/reslver-tf-loader v0.1.0/go.mod h1:Taw+YkDluu1jPU0hxeWBKhhI+wlewJOZHx8GY/SYJCA=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/toml v1.1.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/Microsoft/go-winio v0.4.14/go.mod h1:qXqCSQ3Xa7+6tgxaGTIe4Kpcdsi+P8jBhyzoq1bpyYA=

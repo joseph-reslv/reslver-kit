@@ -3,8 +3,8 @@ package kit
 import (
 	"embed"
 
-	reslver "git.k8s.app/joseph/reslver/core"
-	logger "git.k8s.app/joseph/reslver/logger"
+	reslver "git.k8s.app/resolve/reslver/core"
+	logger "git.k8s.app/resolve/reslver/logger"
 )
 
 var ReslverFileSystem embed.FS

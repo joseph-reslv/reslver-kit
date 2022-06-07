@@ -13,7 +13,7 @@ import (
 var VERSION = "1.0.0"
 var DEFAULT_CONFIG_PATH = ".reslver/configs/"
 var KIT_ROOT = ".reslver_sys/"
-var CONFIGS_REPO = "https://git.k8s.app/joseph/reslver-configs"
+var CONFIGS_REPO = "https://git.k8s.app/resolve/reslver-configs"
 
 //go:embed sources/reslver-tf-loader
 var tfLoaderFileSystem embed.FS

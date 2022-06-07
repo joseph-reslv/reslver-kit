@@ -3,9 +3,9 @@ package kit
 import (
 	"embed"
 
-	graphExporter "git.k8s.app/joseph/reslver-graph-exporter/core"
-	logger "git.k8s.app/joseph/reslver-graph-exporter/logger"
-	graphExporterUtils "git.k8s.app/joseph/reslver-graph-exporter/utils"
+	graphExporter "git.k8s.app/resolve/reslver-graph-exporter/core"
+	logger "git.k8s.app/resolve/reslver-graph-exporter/logger"
+	graphExporterUtils "git.k8s.app/resolve/reslver-graph-exporter/utils"
 )
 
 var GraphModuleFileSystem embed.FS

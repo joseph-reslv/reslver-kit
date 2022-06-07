@@ -37,18 +37,11 @@ require (
 )
 
 require (
-	git.k8s.app/joseph/reslver v0.0.0
-	git.k8s.app/joseph/reslver-excel-exporter v0.0.0
-	git.k8s.app/joseph/reslver-graph-exporter v0.0.0
-	git.k8s.app/joseph/reslver-tf-loader v0.0.0
+	git.k8s.app/resolve/reslver v0.1.0
+	git.k8s.app/resolve/reslver-excel-exporter v0.1.0
+	git.k8s.app/resolve/reslver-graph-exporter v0.1.0
+	git.k8s.app/resolve/reslver-tf-loader v0.1.0
 	github.com/antzucaro/matchr v0.0.0-20210222213004-b04723ef80f0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-)
-
-replace (
-	git.k8s.app/joseph/reslver v0.0.0 => ./reslver
-	git.k8s.app/joseph/reslver-excel-exporter v0.0.0 => ./reslver-excel-exporter
-	git.k8s.app/joseph/reslver-graph-exporter v0.0.0 => ./reslver-graph-exporter
-	git.k8s.app/joseph/reslver-tf-loader v0.0.0 => ./reslver-tf-loader
 )
