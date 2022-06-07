@@ -19,17 +19,17 @@ clone-reslver:
   SAVE ARTIFACT ./sources /sources
 
 clone-reslver-tf-loader:
-  GIT CLONE --branch  v0.1.0 git@git.k8s.app:resolve/reslver-tf-loader.git reslver-tf-loader
+  GIT CLONE --branch v0.1.0 git@git.k8s.app:resolve/reslver-tf-loader.git reslver-tf-loader
   WORKDIR reslver-tf-loader
   SAVE ARTIFACT ./sources /sources
 
 clone-reslver-graph-exporter:
-  GIT CLONE --branch  v0.1.0 git@git.k8s.app:resolve/reslver-graph-exporter.git reslver-graph-exporter
+  GIT CLONE --branch v0.1.0 git@git.k8s.app:resolve/reslver-graph-exporter.git reslver-graph-exporter
   WORKDIR reslver-graph-exporter
   SAVE ARTIFACT ./sources /sources
 
 clone-reslver-static-graph-generator:
-  GIT CLONE git@git.k8s.app:resolve/reslver-static-graph-generator.git reslver-static-graph-generator
+  GIT CLONE --branch v0.1.0 git@git.k8s.app:resolve/reslver-static-graph-generator.git reslver-static-graph-generator
   WORKDIR reslver-static-graph-generator
   RUN tar cvzf reslver.tar.gz ./reslver-graph
   SAVE ARTIFACT ./reslver.tar.gz /sources/reslver.tar.gz
