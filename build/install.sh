@@ -1,3 +1,4 @@
+git config --global url."ssh://git@git.k8s.app/".insteadOf "https://git.k8s.app/"
 git config --global http.sslVerify false
 go env -w GOINSECURE=git.k8s.app
 go env -w GOPRIVATE=git.k8s.app
