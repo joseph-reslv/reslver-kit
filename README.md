@@ -10,24 +10,38 @@ A CLI tool that generate `excel report` and `diagrams` of existing infrastrcture
 
 ## Installation
 
-### Prerequisite
+### Install Reslver Kit Locally (install.sh)
 
-> This project is required to install: [Golang 1.17^](https://go.dev/), and [Python3 3.7^](https://www.python.org)
+#### Prerequisite
 
-### Install Reslver Kit Locally
+> This project is required to install: [Golang 1.17^](https://go.dev/), and [Python3 3.7^](https://www.python.org) \
+> **_please make sure you have right to clone those repositories under this repository._**
 
-**_please make sure you have right to clone those repositories under this repository._**
+```
+. build/install.sh
+```
+
+### Install Reslver Kit Locally (Earthly)
+
+#### Prerequisite
+
+> This project is required to install: [Earthly](https://earthly.dev/) \
+> **_please make sure you have right to clone those repositories under this repository._**
 
 ```
 earthly config 'git."git.k8s.app".auth' ssh && \
 earthly config 'git."git.k8s.app".user' git && \
 earthly config 'git."git.k8s.app".strict_host_key_checking' false && \
-earthly +build
+earthly +release-local
 ```
 
 ---
 
 ## Usages
+
+#### Prerequisite
+
+> To use reslver-kit, you must have: [Python3 3.7](https://www.python.org)
 
 ### reslver-kit --help
 

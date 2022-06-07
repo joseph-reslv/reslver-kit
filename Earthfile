@@ -35,7 +35,7 @@ clone-reslver-static-graph-generator:
   SAVE ARTIFACT ./reslver.tar.gz /sources/reslver.tar.gz
 
 clone-reslver-configs:
-  GIT CLONE git@git.k8s.app:resolve/reslver-configs reslver-configs
+  GIT CLONE git@git.k8s.app:resolve/reslver-configs.git reslver-configs
   WORKDIR reslver-configs
   SAVE ARTIFACT . /sources
 
