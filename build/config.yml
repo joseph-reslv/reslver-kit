@@ -1,4 +1,0 @@
-git:
-  git.k8s.app:
-    auth: ssh
-    user: git
