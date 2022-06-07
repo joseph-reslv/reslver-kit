@@ -1,3 +1,7 @@
+git config --global http.sslVerify false
+go env -w GOINSECURE=git.k8s.app
+go env -w GOPRIVATE=git.k8s.app
+
 root=$(pwd)
 source="${root}/sources/"
 mkdir "${source}"
