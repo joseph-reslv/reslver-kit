@@ -1,6 +1,12 @@
 # Reslver Kit
 
 [![CI - build & release](https://git.k8s.app/resolve/reslver-kit/actions/workflows/main.yml/badge.svg)](https://git.k8s.app/resolve/reslver-kit/actions/workflows/main.yml)
+[![reslver](https://badgen.net/badge/reslver/v0.1.0/blue)](https://git.k8s.app/resolve/reslver/releases/tag/v0.1.0)
+[![reslver-tf-loader](https://badgen.net/badge/reslver-tf-loader/v0.1.0/blue)](https://git.k8s.app/resolve/reslver-tf-loader/releases/tag/v0.1.0)
+[![reslver-graph-exporter](https://badgen.net/badge/reslver-graph-exporter/v0.1.0/blue)](https://git.k8s.app/resolve/reslver-graph-exporter/releases/tag/v0.1.0)
+[![reslver-static-graph-generator](https://badgen.net/badge/reslver-static-graph-generator/v0.1.0/blue)](https://git.k8s.app/resolve/reslver-static-graph-generator/releases/tag/v0.1.0)
+[![reslver-excel-exporter](https://badgen.net/badge/reslver-excel-exporter/v0.1.0/blue)](https://git.k8s.app/resolve/reslver-excel-exporter/releases/tag/v0.1.0)
+[![python3.7](https://badgen.net/badge/python/3.7/blue)](https://www.python.org/downloads/release/python-3713/)
 
 A CLI tool that generate `excel report` and `diagrams` of existing infrastrcture from `tfstate` files.
 
@@ -14,7 +20,7 @@ A CLI tool that generate `excel report` and `diagrams` of existing infrastrcture
 
 #### Prerequisite
 
-> This project is required to install: [Golang 1.17^](https://go.dev/), and [Python3 3.7^](https://www.python.org) \
+> This project is required to install: [Golang 1.17^](https://go.dev/), and [Python3 3.7](https://www.python.org) \
 > **_please make sure you have right to clone those repositories under this repository._**
 
 ```
